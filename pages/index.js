@@ -1,34 +1,12 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, SearchBar, PostCardButton, ProposalCard, shortenAddress, Loader } from '../components';
 import Web3Modal from 'web3modal';
 import images from '../assets'
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
 import { ethers } from 'ethers';
-import Link from 'next/link';
-
-import { create as ipfsHttpClient } from 'ipfs-http-client';
-import { useRouter } from 'next/router';
-
 
 import DAOAddress from './contractsData/dao-address.json';
 import DAOAbi from './contractsData/dao.json';
-
-const projectId = '2DQ2x5iBLkxG6T0LQTdngAu0e12';   // <---------- your Infura Project ID
-
-const projectSecret = 'c3472313b50c11b6d70ba336178aeaf1';  // <---------- your Infura Secret
-// (for security concerns, consider saving these values in .env files)
-
-const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
-
-const client = ipfsHttpClient({
-    host: 'ipfs.infura.io',
-    port: 5001,
-    protocol: 'https',
-    headers: {
-        authorization: auth,
-    },
-});
 
 
 const Home = () => {
@@ -328,3 +306,4 @@ const Home = () => {
 };
 
 export default Home;
+
