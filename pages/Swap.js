@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { TbArrowsDownUp } from 'react-icons/tb';
-import { useRouter } from 'next/router';
 import Web3Modal from 'web3modal';
 import Web3 from 'web3';
 import { ethers } from 'ethers';
@@ -9,27 +8,10 @@ import { Button, Input } from '../components';
 import SwapAddress from './contractsData/etherswap-address.json';
 import SwapAbi from './contractsData/etherswap.json';
 
-import { create as ipfsHttpClient } from 'ipfs-http-client';
-
-const projectId = '2DQ2x5iBLkxG6T0LQTdngAu0e12';   // <---------- your Infura Project ID
-
-const projectSecret = 'c3472313b50c11b6d70ba336178aeaf1';  // <---------- your Infura Secret
-// (for security concerns, consider saving these values in .env files)
-
-const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
-
-const client = ipfsHttpClient({
-    host: 'ipfs.infura.io',
-    port: 5001,
-    protocol: 'https',
-    headers: {
-        authorization: auth,
-    },
-});
-
 
 const Swap = () => {
   const [Eth, setEth] = useState('');
+  const [GT, setGT] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [exchange, setExchange] = useState('');
 
@@ -53,31 +35,6 @@ const Swap = () => {
     }
 
 
-
-  /*const buyTokens = async () => {
-    try {
-      const web3Modal = new Web3Modal();
-      const connection = await web3Modal.connect();
-      const provider = new ethers.providers.Web3Provider(connection);
-      const signer = provider.getSigner();
-      const etherswapContract = new ethers.Contract(
-        EtherSwapAddress.address,
-        EtherSwapAbi.abi,
-        signer
-      );
-
-      setIsLoading(true);
-      const txn = await etherswapContract.buyTokens(Eth);
-      await txn.wait();
-      setIsLoading(false);
-
-    } catch (error) {
-      console.log(error);
-    }
-
-  }*/
-
-
   const buyTokens = async () => {
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
@@ -97,7 +54,7 @@ const Swap = () => {
   }
 
 
-  const sellTokens = async ({ tokenAmount }) => {
+  const sellTokens = async () => {
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
@@ -109,7 +66,7 @@ const Swap = () => {
     );
 
     setIsLoading(true);
-    const txn = await swapContract.sellTokens(tokenAmount);
+    const txn = await swapContract.sellTokens(ethers.utils.parseUnits(GT.toString()));
     await txn.wait();
     setIsLoading(false);
   }
@@ -177,7 +134,7 @@ const Swap = () => {
               <div className="h-[1px] w-full bg-nft-gray-1 my-2" />
               <div className="flex flex-col">
                 <div className="flex flex-col px-5 py-3 items-start h-full">
-                  <Input placeholder="0.00" title="Governor Token" symbol="GT" inputType="number" handleClick={(e) => setEth(e.target.value)} />
+                  <Input placeholder="0.00" title="Governor Token" symbol="GT" inputType="number" handleClick={(e) => setGT(e.target.value)} />
                 </div>
                   <div className='flex justify-center items-center font-semibold pt-6'>
                     <button className='rounded-full' onClick={_setExchange}>
@@ -189,7 +146,7 @@ const Swap = () => {
                   <p className="font-poppins dark:text-white text-nft-black-1 font-semibold text-lg">Ethereum</p>
                   <div className="dark:bg-nft-black-1 bg-white border dark:border-nft-black-1 border-nft-gray-2 rounded-lg w-full outline-none font-poppins dark:text-white text-nft-gray-2 text-base mt-4 px-4 py-3 flexBetween flex-row">
                     <div className='flex-1 w-full dark:bg-nft-black-1 bg-white outline-none'>
-                      {Eth / 100}
+                      {GT / 100}
                     </div>
                       <p className="font-poppins dark:text-white text-nft-black-1 font-semibold text-md">ETH</p>
                     </div>
@@ -201,7 +158,7 @@ const Swap = () => {
                   btnName="Swap"
                   btnType="primary"
                   classStyles="rounded-xl py-3"
-                  handleClick={buyTokens}
+                  handleClick={sellTokens}
                 />
               </div>
             </div>
@@ -214,3 +171,4 @@ const Swap = () => {
 };
 
 export default Swap;
+
