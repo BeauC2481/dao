@@ -13,7 +13,7 @@ const Swap = () => {
   const [Eth, setEth] = useState('');
   const [GT, setGT] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [exchange, setExchange] = useState('');
+  const [exchange, setExchange] = useState(2);
 
 
     useEffect(() => {
@@ -73,11 +73,11 @@ const Swap = () => {
 
 
   const _setExchange = async () => {
-    if (exchange === 1) {
-      setExchange(2);
-    } else {
-      setExchange(1);
-    }
+    //if (exchange === 1) {
+    //  setExchange(2);
+    //} else {
+    //  setExchange(1);
+    //}
     console.log(exchange);
   }
 
