@@ -16,25 +16,6 @@ const Swap = () => {
   const [exchange, setExchange] = useState(2);
 
 
-    useEffect(() => {
-      loadWeb3();
-    })
-  
-  
-    const loadWeb3 = async () => {
-      if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum)
-        await window.ethereum.enable()
-      }
-      else if (window.web3) {
-        window.web3 = new Web3(window.web3.currentProvider)
-      }
-      else {
-        window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
-      }
-    }
-
-
   const buyTokens = async () => {
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
